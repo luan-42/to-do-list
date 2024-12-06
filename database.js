@@ -3,16 +3,16 @@ function Database() {
     if (id === null) {
         localStorage.setItem("id", 0);
     }
+    id = +id;
 
     const add = (item) => {
-        id = +localStorage.getItem("id");
         localStorage.setItem(id, JSON.stringify(item));
         localStorage.setItem("id", ++id);
     }
 
     const load = () => {
         const items = [];
-        for (let i = 0; i < localStorage.length; i++) {
+        for (let i = 0; i < id; i++) {
             try {
                 const item = JSON.parse(localStorage.getItem(i));
                 if (item !== null) {
