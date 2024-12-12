@@ -21,16 +21,21 @@ function createCard(task) {
 
     const removeButton = card.querySelector("button");
     const updateTask = () => {
-        if (!title.value.trim()) {
-            alert("Preencha o nome da tarefa.");
-        } else {
-            db.update(task.id, {title: title.value, isCompleted: checkbox.checked});
-        }
-        loadTasks();
+        db.update(task.id, {title: title.value, isCompleted: checkbox.checked});
     } 
 
-    checkbox.addEventListener("click", updateTask);
-    title.addEventListener("change", updateTask);
+    checkbox.addEventListener("click", () => {
+        updateTask();
+        loadTasks();
+    });
+    title.addEventListener("change", () => {
+        if (!title.value.trim()) {
+            alert("Preencha o nome da tarefa.");
+            loadTasks();
+        } else {
+            updateTask();
+        }
+    });
     removeButton.addEventListener("click", () => {
         db.remove(task.id);
         loadTasks();
@@ -54,6 +59,7 @@ const AddButton = document.querySelector("#addTask > button");
 
 function addTask() {
     if (!inputTask.value.trim()) {
+        inputTask.value = "";
         return alert("Preencha o nome da tarefa.");
     }
 
